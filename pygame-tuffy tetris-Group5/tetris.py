@@ -1,27 +1,28 @@
+# imports
 import sys
 import os
-
 import pygame
 from pygame.locals import *
-
 from engine import TextView, ViewBase, Board, Piece, Color
 
 _print_dim = False
+
 
 class PygameView(ViewBase):
     """Renders a board in pygame."""
 
     COLOR_MAP = {
-        Color.CLEAR : pygame.Color(255, 255, 255),
-        Color.RED : pygame.Color(255, 0, 0),
-        Color.BLUE : pygame.Color(0, 255, 0),
-        Color.GREEN : pygame.Color(0, 0, 255),
-        Color.YELLOW : pygame.Color(255, 255, 0),
-        Color.MAGENTA : pygame.Color(255, 0, 255),
-        Color.CYAN : pygame.Color(0, 255, 255),
-        Color.ORANGE : pygame.Color(255, 140, 0)
+        Color.CLEAR: pygame.Color(255, 255, 255),
+        Color.RED: pygame.Color(255, 0, 0),
+        Color.BLUE: pygame.Color(0, 255, 0),
+        Color.GREEN: pygame.Color(0, 0, 255),
+        Color.YELLOW: pygame.Color(255, 255, 0),
+        Color.MAGENTA: pygame.Color(255, 0, 255),
+        Color.CYAN: pygame.Color(0, 255, 255),
+        Color.ORANGE: pygame.Color(255, 140, 0),
+        Color.BLACK: pygame.Color(0, 0, 0)
     }
-        
+
     BOARD_BORDER_SIZE = 5
     SCORE_PADDING = 5
     BORDER_SIZE = 4
@@ -52,7 +53,7 @@ class PygameView(ViewBase):
 
     def set_level(self, level):
         if self.level != level:
-            pygame.event.post(pygame.event.Event(Tetris.LEVEL_UP, level = level))
+            pygame.event.post(pygame.event.Event(Tetris.LEVEL_UP, level=level))
         self.level = level
 
     def show(self):
@@ -62,13 +63,16 @@ class PygameView(ViewBase):
     def show_score(self):
         score_height = 0
         if self.score is not None:
-            score_surf = self.sc_font.render("{:06d}".format(self.score), True, self.font_color)
-            self.surf.blit(score_surf, (self.BOARD_BORDER_SIZE, self.BOARD_BORDER_SIZE))
+            score_surf = self.sc_font.render(
+                "{:06d}".format(self.score), True, self.font_color)
+            self.surf.blit(
+                score_surf, (self.BOARD_BORDER_SIZE, self.BOARD_BORDER_SIZE))
             score_height = score_surf.get_height()
 
         if self.level is not None:
-            level_surf = self.sc_font.render("LEVEL {:02d}".format(self.level), True, self.font_color)
-            level_pos = (self.BOARD_BORDER_SIZE, 
+            level_surf = self.sc_font.render(
+                "LEVEL {:02d}".format(self.level), True, self.font_color)
+            level_pos = (self.BOARD_BORDER_SIZE,
                          self.BOARD_BORDER_SIZE + score_height + self.SCORE_PADDING)
             self.surf.blit(level_surf, level_pos)
 
@@ -84,20 +88,22 @@ class PygameView(ViewBase):
         return (max(sw, lw) + self.BOARD_BORDER_SIZE, sh + lh + self.SCORE_PADDING)
 
     def calc_dimensions(self):
-        horiz_size = (self.view_width - (self.BOARD_BORDER_SIZE * 2)) // self.width
-        vert_size = (self.view_height - (self.BOARD_BORDER_SIZE * 2)) // self.height
+        horiz_size = (self.view_width -
+                      (self.BOARD_BORDER_SIZE * 2)) // self.width
+        vert_size = (self.view_height -
+                     (self.BOARD_BORDER_SIZE * 2)) // self.height
 
         if vert_size > horiz_size:
             self.box_size = horiz_size
-            self.padding = (self.get_score_size()[0] * 2, 
-                            (self.view_height 
+            self.padding = (self.get_score_size()[0] * 2,
+                            (self.view_height
                                 - self.BOARD_BORDER_SIZE
                                 - (self.height * horiz_size)))
         else:
             self.box_size = vert_size
             left_padding = max(self.get_score_size()[0] * 2,
-                               (self.view_width 
-                                - self.BOARD_BORDER_SIZE 
+                               (self.view_width
+                                - self.BOARD_BORDER_SIZE
                                 - (self.width * vert_size)))
             self.padding = (left_padding, 0)
 
@@ -106,21 +112,21 @@ class PygameView(ViewBase):
             print(self.width, self.height)
             print(self.view_width, self.view_height)
             print(horiz_size, vert_size)
-            print(self.box_size)            
+            print(self.box_size)
             print(self.padding)
             _print_dim = True
 
-
     def draw_board(self):
-        bg_color = self.COLOR_MAP[Color.CLEAR]
-        self.surf.fill(bg_color - self.BORDER_FADE)
+        bg_color = self.COLOR_MAP[Color.BLACK]
+        self.surf.fill(bg_color + self.BORDER_FADE)
 
         X_START = self.BOARD_BORDER_SIZE + (self.padding[1] // 2)
         Y_START = self.BOARD_BORDER_SIZE + (self.padding[0] // 2)
 
         x = X_START
         y = Y_START
-        board_rect = (y, x, self.width * self.box_size, self.height * self.box_size)
+        board_rect = (y, x, self.width * self.box_size,
+                      self.height * self.box_size)
         pygame.draw.rect(self.surf, bg_color, board_rect)
         for col in self.rows:
             for item in col:
@@ -138,11 +144,12 @@ class PygameView(ViewBase):
         bd_color = pg_color - self.BORDER_FADE
 
         outer_rect = (y, x, self.box_size, self.box_size)
-        inner_rect = (y + bd_size, x + bd_size, 
+        inner_rect = (y + bd_size, x + bd_size,
                       self.box_size - bd_size*2, self.box_size - bd_size*2)
 
         pygame.draw.rect(self.surf, bd_color, outer_rect)
         pygame.draw.rect(self.surf, pg_color, inner_rect)
+
 
 class Tetris:
     DROP_EVENT = USEREVENT + 1
@@ -165,7 +172,7 @@ class Tetris:
 
     def key_handler(self, key):
         if key == K_LEFT:
-            self.board.move_piece(-1,0)
+            self.board.move_piece(-1, 0)
         elif key == K_RIGHT:
             self.board.move_piece(1, 0)
         elif key == K_UP:
@@ -181,6 +188,7 @@ class Tetris:
 
     def init(self):
         pygame.init()
+        pygame.display.set_caption("Tuffy Tetris")
         pygame.font.init()
         self.surf = pygame.display.set_mode((600, 600))
         self.font = None
@@ -210,19 +218,19 @@ class Tetris:
 
     def get_level_speed(self, level):
         SPEEDS = {
-            1 : 1000,
-            2 : 750,
-            3 : 500,
-            4 : 400,
-            5 : 300,
-            6 : 250,
-            7 : 200,
-            8 : 150,
-            9 : 125,
-            10 : 100,
-            11 : 90,
-            12 : 80,
-            13 : 75
+            1: 1000,
+            2: 750,
+            3: 500,
+            4: 400,
+            5: 300,
+            6: 250,
+            7: 200,
+            8: 150,
+            9: 125,
+            10: 100,
+            11: 90,
+            12: 80,
+            13: 75
         }
 
         if level > 13:
@@ -230,6 +238,7 @@ class Tetris:
         else:
             return SPEEDS[level]
 
+    # Renders current frame
     def render_frame(self):
         self.board.render(self.view)
 
@@ -242,6 +251,7 @@ class Tetris:
 
         pygame.display.update()
 
+    # Main game loop
     def main(self):
         self.init()
         self.clock = pygame.time.Clock()
@@ -257,18 +267,14 @@ class Tetris:
                 elif event.type == self.DROP_EVENT:
                     self.board.drop_piece()
                 elif event.type == self.LEVEL_UP:
-                    pygame.time.set_timer(self.DROP_EVENT, self.get_level_speed(event.level))
+                    pygame.time.set_timer(
+                        self.DROP_EVENT, self.get_level_speed(event.level))
                     print("new level:", event.level)
 
             if self.board.game_over and not self.game_over:
                 self.game_over = True
                 pygame.time.set_timer(self.DROP_EVENT, 0)
+                return
 
             self.render_frame()
             self.clock.tick(self.max_fps)
-
-
-if __name__ == "__main__":
-    t = Tetris(PygameView)
-    t.main()
-    #t.show_colors()
