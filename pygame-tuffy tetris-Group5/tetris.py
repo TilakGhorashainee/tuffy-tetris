@@ -273,6 +273,10 @@ class Tetris:
 
             if self.board.game_over and not self.game_over:
                 self.game_over = True
+                
+                #user = input("Enter Username to save score: ")
+                #self.board.leaderboard(user)
+                
                 pygame.time.set_timer(self.DROP_EVENT, 0)
                 return
 
