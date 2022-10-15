@@ -156,7 +156,7 @@ class Board:
         self.piece = None
         self.finalize_ready = False
         self.tiles = defaultdict(lambda: Color.CLEAR)
-        self.score = 0
+        self.score = 0  #score initialized at 0
         self.level = 1
         self.lines = 0
         self.game_over = False
@@ -286,3 +286,19 @@ class Board:
             self.piece.render(v)
         v.set_score(self.score)
         v.set_level(self.level)
+    
+    def leaderboard(self, username):
+        #write new username and score
+        file = open("leaderboard.txt", "a")
+        file.write((username) + ":" (str(self.score)) + "\n")
+        file.close()
+
+        #display updated leaderboard 
+        file = open("leaderboard.txt", "r")
+        readFile = file.readlines()
+        sortedData = sorted(readFile, reverse = True)
+        print("Position    	" + "Name    	" + "Score" + "\n")
+        print("========================================\n")
+        
+        for line in range (5):
+            print(str(line + 1) + "\t" + str(sortedData[line]))
