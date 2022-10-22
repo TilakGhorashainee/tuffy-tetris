@@ -1,4 +1,5 @@
 # imports
+from asyncio import TimerHandle
 import sys
 import os
 import pygame
@@ -154,6 +155,10 @@ class PygameView(ViewBase):
 class Tetris:
     DROP_EVENT = USEREVENT + 1
     LEVEL_UP = USEREVENT + 2
+    IS_SURVIVAL_MODE = False
+    IS_SPRINT_MODE = False
+    
+    
 
     def __init__(self, view_type):
         self.board = Board(10, 20)
@@ -251,8 +256,8 @@ class Tetris:
 
         pygame.display.update()
 
-    # Main game loop
-    def main(self):
+
+    def main_survival(self):
         self.init()
         self.clock = pygame.time.Clock()
         pygame.time.set_timer(self.DROP_EVENT, self.get_level_speed(1))
@@ -278,3 +283,59 @@ class Tetris:
 
             self.render_frame()
             self.clock.tick(self.max_fps)
+
+
+    def main_sprint(self):
+        self.init()
+        self.clock = pygame.time.Clock()
+
+        timer_font = pygame.font.SysFont('ni7seg', 30)
+        counter = 60 
+        text = timer_font.render("1:00", True, (255, 0, 0))
+        
+        timer_pos = (5,45)
+        pygame.time.set_timer(self.DROP_EVENT, self.get_level_speed(1))
+
+        while True:
+            for event in pygame.event.get():  
+                if event.type == QUIT:
+                    pygame.quit()
+                    sys.exit()
+                elif event.type == KEYDOWN:
+                    self.key_handler(event.key)
+                elif event.type == self.DROP_EVENT:
+                    if counter > 0:
+                        counter -= 1
+                        text = timer_font.render("00:%02d" % counter, True, (200, 0, 0))
+                    else:
+                        self.game_over = True
+                        pygame.time.set_timer(self.DROP_EVENT, 0)
+                        return  
+
+                    self.board.drop_piece()
+                elif event.type == self.LEVEL_UP:
+                    pygame.time.set_timer(
+                        self.DROP_EVENT, self.get_level_speed(event.level))
+                    print("new level:", event.level)
+            
+            if self.board.game_over and not self.game_over:
+                self.game_over = True
+                pygame.time.set_timer(self.DROP_EVENT, 0)
+                return  
+
+
+            self.surf.blit(text, timer_pos)
+            pygame.display.flip()
+           
+            self.render_frame()
+            self.clock.tick(self.max_fps)
+
+    # Main game loop
+    def main(self):
+
+        if self.IS_SURVIVAL_MODE == True:
+            self.main_survival()
+        elif self.IS_SPRINT_MODE == True:
+            self.main_sprint()
+        
+        
