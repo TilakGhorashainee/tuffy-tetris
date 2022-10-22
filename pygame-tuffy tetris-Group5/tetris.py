@@ -324,10 +324,9 @@ class Tetris:
                 return  
 
 
+            self.render_frame()                    
             self.surf.blit(text, timer_pos)
             pygame.display.flip()
-           
-            self.render_frame()
             self.clock.tick(self.max_fps)
 
     # Main game loop
