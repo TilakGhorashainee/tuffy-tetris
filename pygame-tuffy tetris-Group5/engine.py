@@ -1,7 +1,6 @@
 # Imports
 from collections import defaultdict
 from random import Random
-
 # Some interfaces
 
 
@@ -15,11 +14,41 @@ class Color:
     CYAN = "cyan"
     ORANGE = "orange"
     BLACK = "black"
-
+    #AQUATIC THEME
+    TIFFANY_BLUE = "tiffany blue"
+    AQUAMARINE = "aquamarine"
+    HONOLULU_BLUE = "honolulu blue"
+    JACARTA = 'jacarta'
+    PEARLY_PURPLE = 'pearly purple'
+    LEMON_MERINGUE = 'lemon meringue'
+    NAPLES_YELLOW = 'naples yellow'
+    #FOREST THEME
+    DARK_LAVA = 'dark lava'
+    COYOTE_BROWN = 'coyote brown'
+    CRAYOLAS_OUTER_SPACE = 'crayolas outer space'
+    GRAY_ASPARAGUS = 'gray-asparagus'
+    AXOLOTL = 'axolotl'
+    PHILIPPINE_GRAY = 'philippine gray'
+    ARTICHOKE = 'artichoke'
+    #INDUSTRIAL THEME
+    JAPANESE_INDIGO = 'japanese indigo',
+    CARMINE_PINK = 'carmine pink',
+    BRIGHT_GRAY = 'bright gray',
+    TUFTS_BLUE = 'tufts blue',
+    CRAYOLAS_GOLD = 'vampire black',
+    SEA_GREEN = 'sea green',
+    ASH_GRAY = 'ash gray'
     @staticmethod
     def colors():
         return (Color.RED, Color.BLUE, Color.GREEN, Color.YELLOW,
-                Color.MAGENTA, Color.CYAN, Color.ORANGE, Color.BLACK)
+                Color.MAGENTA, Color.CYAN, Color.ORANGE, Color.BLACK, 
+                Color.TIFFANY_BLUE, Color.AQUAMARINE, Color.HONOLULU_BLUE, 
+                Color.JACARTA, Color.PEARLY_PURPLE, Color.LEMON_MERINGUE,
+                Color.NAPLES_YELLOW, Color.DARK_LAVA, Color.COYOTE_BROWN, 
+                Color.CRAYOLAS_OUTER_SPACE, Color.GRAY_ASPARAGUS, Color.AXOLOTL,
+                Color.PHILIPPINE_GRAY, Color.ARTICHOKE, Color.JAPANESE_INDIGO, 
+                Color.CARMINE_PINK, Color.BRIGHT_GRAY, Color.TUFTS_BLUE, 
+                Color.CRAYOLAS_GOLD, Color.SEA_GREEN, Color.ASH_GRAY)
 
 
 class ViewBase:
@@ -53,6 +82,30 @@ class TextView(ViewBase):
         Color.MAGENTA: '%',
         Color.CYAN: '&',
         Color.ORANGE: '$',
+        #AQUATIC THEME
+        Color.TIFFANY_BLUE: '^',
+        Color.AQUAMARINE: '!',
+        Color.HONOLULU_BLUE: '@',
+        Color.JACARTA: '(',
+        Color.PEARLY_PURPLE: ')',
+        Color.LEMON_MERINGUE: '-',
+        Color.NAPLES_YELLOW: '+',
+        #FOREST THEME
+        Color.DARK_LAVA: '_', 
+        Color.COYOTE_BROWN: '=', 
+        Color.CRAYOLAS_OUTER_SPACE: 'q', 
+        Color.GRAY_ASPARAGUS: 'w', 
+        Color.AXOLOTL: 'e',
+        Color.PHILIPPINE_GRAY: 'r', 
+        Color.ARTICHOKE: 't',
+        #INDUSTRIAL THEME
+        Color.JAPANESE_INDIGO: 'y',
+        Color.CARMINE_PINK: 'u',
+        Color.BRIGHT_GRAY: 'i',
+        Color.TUFTS_BLUE: 'p',
+        Color.CRAYOLAS_GOLD: 'a',
+        Color.SEA_GREEN: 's',
+        Color.ASH_GRAY: 'd'
     }
 
     def __init__(self, surf=None):
@@ -100,6 +153,45 @@ class Piece:
                "x_adj": 3,
                "y_adj": 0,
                "color": Color.RED}
+    #DEFAULT THEME
+    L_SHAPE_YELLOW = {"color": Color.YELLOW}
+    R_SHAPE_ORANGE = {"color": Color.ORANGE}
+    O_SHAPE_CYAN = {"color": Color.CYAN}
+    T_SHAPE_MAGENTA = {"color": Color.MAGENTA}
+    S_SHAPE_BLUE = {"color": Color.BLUE}
+    Z_SHAPE_GREEN = {"color": Color.GREEN}  
+    I_SHAPE_RED = {"color": Color.RED} 
+
+
+    # AQUATIC THEME
+    L_SHAPE_TIFFANY_BLUE = {"color": Color.TIFFANY_BLUE}
+    R_SHAPE_AQUAMARINE = {"color": Color.AQUAMARINE}
+    O_SHAPE_HONOLULU_BLUE = {"color": Color.HONOLULU_BLUE}
+    T_SHAPE_JACARTA = {"color": Color.JACARTA}
+    S_SHAPE_PEARLY_PURPLE = {"color": Color.PEARLY_PURPLE}
+    Z_SHAPE_LEMON_MERINGUE = {"color": Color.LEMON_MERINGUE}  
+    I_SHAPE_NAPLES_YELLOW = {"color": Color.NAPLES_YELLOW} 
+
+    #FOREST THEME
+    L_SHAPE_DARK_LAVA = {"color": Color.DARK_LAVA}
+    R_SHAPE_COYOTE_BROWN = {"color": Color.COYOTE_BROWN}
+    O_SHAPE_CRAYOLAS_OUTER_SPACE = {"color": Color.CRAYOLAS_OUTER_SPACE}
+    T_SHAPE_GRAY_ASPARAGUS = {"color": Color.GRAY_ASPARAGUS}
+    S_SHAPE_AXOLOTL = {"color": Color.AXOLOTL}
+    Z_SHAPE_PHILIPPINE_GRAY = {"color": Color.PHILIPPINE_GRAY}  
+    I_SHAPE_ARTICHOKE = {"color": Color.ARTICHOKE} 
+
+    #INDUSTRIAL THEME
+    L_SHAPE_JAPANESE_INDIGO = {"color": Color.JAPANESE_INDIGO}
+    R_SHAPE_CARMINE_PINK = {"color": Color.CARMINE_PINK}
+    O_SHAPE_BRIGHT_GRAY = {"color": Color.BRIGHT_GRAY}
+    T_SHAPE_TUFTS_BLUE = {"color": Color.TUFTS_BLUE}
+    S_SHAPE_CRAYOLAS_GOLD = {"color": Color.CRAYOLAS_GOLD}
+    Z_SHAPE_SEA_GREEN = {"color": Color.SEA_GREEN}  
+    I_SHAPE_ASH_GRAY = {"color": Color.ASH_GRAY} 
+
+
+
     SHAPES = (L_SHAPE, R_SHAPE, O_SHAPE, T_SHAPE, S_SHAPE, Z_SHAPE, I_SHAPE)
 
     def __init__(self, x, y, shape, color, rot=0):

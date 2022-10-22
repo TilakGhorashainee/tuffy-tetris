@@ -3,7 +3,7 @@ import sys
 import os
 import pygame
 from pygame.locals import *
-from engine import TextView, ViewBase, Board, Piece, Color
+from engine import TextView, ViewBase, Board, Color
 
 _print_dim = False
 
@@ -20,7 +20,31 @@ class PygameView(ViewBase):
         Color.MAGENTA: pygame.Color(255, 0, 255),
         Color.CYAN: pygame.Color(0, 255, 255),
         Color.ORANGE: pygame.Color(255, 140, 0),
-        Color.BLACK: pygame.Color(0, 0, 0)
+        Color.BLACK: pygame.Color(0, 0, 0),
+        #AQUATIC THEME
+        Color.TIFFANY_BLUE: pygame.Color(0, 173, 169),
+        Color.AQUAMARINE: pygame.Color(127, 255, 212),
+        Color.HONOLULU_BLUE: pygame.Color(0, 113, 173),
+        Color.JACARTA: pygame.Color(71, 40, 100),
+        Color.PEARLY_PURPLE: pygame.Color(163, 95, 152),
+        Color.LEMON_MERINGUE: pygame.Color(249, 229, 193),
+        Color.NAPLES_YELLOW: pygame.Color(252, 218, 100),
+        #FOREST THEME
+        Color.DARK_LAVA: pygame.Color(69, 55, 48),
+        Color.COYOTE_BROWN: pygame.Color(130, 94, 65),
+        Color.CRAYOLAS_OUTER_SPACE: pygame.Color(44, 62, 57),
+        Color.GRAY_ASPARAGUS: pygame.Color(65, 90, 69),
+        Color.AXOLOTL: pygame.Color(108, 112, 88),
+        Color.PHILIPPINE_GRAY: pygame.Color(152, 147, 139),
+        Color.ARTICHOKE: pygame.Color(138, 166, 131),
+        #Industrial
+        Color.JAPANESE_INDIGO: pygame.Color(44, 63, 80),
+        Color.CARMINE_PINK: pygame.Color(232, 76, 61),
+        Color.BRIGHT_GRAY: pygame.Color(236, 240, 241),
+        Color.TUFTS_BLUE: pygame.Color(50, 151, 219),
+        Color.CRAYOLAS_GOLD: pygame.Color(227, 194, 132),
+        Color.SEA_GREEN: pygame.Color(39, 160, 99),
+        Color.ASH_GRAY: pygame.Color(186, 185, 181)
     }
 
     BOARD_BORDER_SIZE = 5
