@@ -291,7 +291,7 @@ class Tetris:
 
         timer_font = pygame.font.SysFont('ni7seg', 30)
         counter = 60 
-        text = timer_font.render("1:00", True, (255, 0, 0))
+        text = timer_font.render("01:00", True, (255, 0, 0))
         
         timer_pos = (5,45)
         pygame.time.set_timer(self.DROP_EVENT, self.get_level_speed(1))
@@ -306,7 +306,7 @@ class Tetris:
                 elif event.type == self.DROP_EVENT:
                     if counter > 0:
                         counter -= 1
-                        text = timer_font.render("00:%02d" % counter, True, (200, 0, 0))
+                        text = timer_font.render("00:%02d" % counter, True, (255, 0, 0))
                     else:
                         self.game_over = True
                         pygame.time.set_timer(self.DROP_EVENT, 0)
