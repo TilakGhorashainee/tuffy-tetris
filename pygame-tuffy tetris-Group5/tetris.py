@@ -287,7 +287,7 @@ class Tetris:
 
     def main_sprint(self):
         self.init()
-        self.clock = pygame.time.Clock()
+        clock = pygame.time.Clock()
 
         timer_font = pygame.font.SysFont('ni7seg', 30)
         counter = 60 
@@ -327,7 +327,7 @@ class Tetris:
             self.render_frame()                    
             self.surf.blit(text, timer_pos)
             pygame.display.flip()
-            self.clock.tick(self.max_fps)
+            clock.tick(self.max_fps)
 
     # Main game loop
     def main(self):
