@@ -18,10 +18,56 @@ def get_font(size):  # Returns Press-Start-2P in the desired size
     return pygame.font.Font("pygame-tuffy tetris-Group5/assets/font.ttf", size)
 
 
-def play():
+def play_survival():
     t = Tetris(PygameView)
+    t.IS_SURVIVAL_MODE = True
     t.main()
     main_menu()
+
+def play_sprint():
+    t = Tetris(PygameView)
+    t.IS_SPRINT_MODE = True
+    t.main()
+    main_menu()
+
+
+def gameMode():
+    while True:
+        SCREEN.blit(BG, (0, 0))
+
+        MODE_MOUSE_POS = pygame.mouse.get_pos()
+
+        MENU_TEXT = get_font(40).render("Tuffy Tetris", True, "#b68f40")
+        MENU_RECT = MENU_TEXT.get_rect(center=(300, 100))
+
+        SURVIVAL_BUTTON = Button(image=pygame.image.load("pygame-tuffy tetris-Group5/assets/Mode Rect.png"), pos=(300, 225),
+                          text_input="SURVIVAL MODE", font=get_font(38), base_color="#d7fcd4", hovering_color="White")  
+        SPRINT_BUTTON = Button(image=pygame.image.load("pygame-tuffy tetris-Group5/assets/Mode Rect.png"), pos=(300, 370),
+                        text_input="SPRINT MODE", font=get_font(38), base_color="#d7fcd4", hovering_color="White") 
+
+        SCREEN.blit(MENU_TEXT, MENU_RECT)
+
+        OPTIONS_BACK = Button(image=pygame.image.load("pygame-tuffy tetris-Group5/assets/Play Rect.png"), pos=(300, 525),
+                              text_input="BACK", font=get_font(38), base_color="#d7fcd4", hovering_color="White")
+
+        OPTIONS_BACK.changeColor(MODE_MOUSE_POS)
+        OPTIONS_BACK.update(SCREEN)
+        
+
+        for button in [SURVIVAL_BUTTON, SPRINT_BUTTON]:
+            button.changeColor(MODE_MOUSE_POS)
+            button.update(SCREEN)
+
+        for event in pygame.event.get():
+            if event.type == pygame.MOUSEBUTTONDOWN:                      
+                if SURVIVAL_BUTTON.checkForInput(MODE_MOUSE_POS):
+                    play_survival()
+                if SPRINT_BUTTON.checkForInput(MODE_MOUSE_POS):
+                    play_sprint()
+                if OPTIONS_BACK.checkForInput(MODE_MOUSE_POS):
+                    main_menu()
+                    
+        pygame.display.update()
 
 
 def options():
@@ -167,8 +213,8 @@ def main_menu():
                 pygame.quit()
                 sys.exit()
             if event.type == pygame.MOUSEBUTTONDOWN:
-                if PLAY_BUTTON.checkForInput(MENU_MOUSE_POS):
-                    play()
+                if PLAY_BUTTON.checkForInput(MENU_MOUSE_POS):    
+                    gameMode()
                 if OPTIONS_BUTTON.checkForInput(MENU_MOUSE_POS):
                     options()
                 if QUIT_BUTTON.checkForInput(MENU_MOUSE_POS):
