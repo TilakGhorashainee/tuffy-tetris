@@ -1,4 +1,4 @@
-# pygame-tuffy-tetris-Group5
+#Tuffy Tetris CPSC362 - Group5
 A simple tetris game
 ====================
 
