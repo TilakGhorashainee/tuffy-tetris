@@ -47,11 +47,11 @@ def gameMode():
 
         SCREEN.blit(MENU_TEXT, MENU_RECT)
 
-        OPTIONS_BACK = Button(image=pygame.image.load("pygame-tuffy tetris-Group5/assets/Play Rect.png"), pos=(300, 525),
+        MODES_BACK = Button(image=pygame.image.load("pygame-tuffy tetris-Group5/assets/Play Rect.png"), pos=(300, 525),
                               text_input="BACK", font=get_font(38), base_color="#d7fcd4", hovering_color="White")
 
-        OPTIONS_BACK.changeColor(MODE_MOUSE_POS)
-        OPTIONS_BACK.update(SCREEN)
+        MODES_BACK.changeColor(MODE_MOUSE_POS)
+        MODES_BACK.update(SCREEN)
         
 
         for button in [SURVIVAL_BUTTON, SPRINT_BUTTON]:
@@ -64,7 +64,7 @@ def gameMode():
                     play_survival()
                 if SPRINT_BUTTON.checkForInput(MODE_MOUSE_POS):
                     play_sprint()
-                if OPTIONS_BACK.checkForInput(MODE_MOUSE_POS):
+                if MODES_BACK.checkForInput(MODE_MOUSE_POS):
                     main_menu()
                     
         pygame.display.update()
