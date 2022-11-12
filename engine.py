@@ -1,6 +1,8 @@
 # Imports
+from operator import itemgetter
 from collections import defaultdict
 from random import Random
+import numpy as np
 # Some interfaces
 
 
@@ -380,4 +382,24 @@ class Board:
         v.set_level(self.level)
 
     def leaderboard(self, username):
-        print(username + " score: " + str(self.score) + "\n")
+        leaderboard = []
+        with open("leaderboard.txt", 'r') as f:
+            lines = f.readlines()
+            for line in lines:
+                currentLine = line.split(",")
+                leaderboard.append([currentLine[0], int(currentLine[1])])
+        f.close()
+
+        leaderboard.append([str(username), int(self.score)])
+
+        leaderboard = sorted(leaderboard, key=itemgetter(1), reverse=True)
+
+        fi = open("leaderboard.txt", "w")
+        for score in leaderboard:
+            fi.write(score[0])
+            fi.write(', ')
+            fi.write(str(score[1]))
+            fi.write("\n")
+        fi.close()
+        
+        print(leaderboard)
