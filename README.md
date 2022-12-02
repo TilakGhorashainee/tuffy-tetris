@@ -13,5 +13,8 @@ Down arrow: Drop piece one space
 
 A/S keys: Rotate piece left/right
 
+P key: for paused and continue
+
+H key: for Holding the piece (swaps current piece with held piece)
+
 Space bar: Full drop
-p for paused and p for continue
