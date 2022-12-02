@@ -84,6 +84,13 @@ class PygameView(ViewBase):
     def show(self):
         self.draw_board()
         self.show_score()
+        self.draw_hold()
+    
+    def show_hold(self, hold_block, block_color):
+        if hold_block != None:
+            for dx in hold_block:
+                pygame.draw.rect(self.surf, (20, 20, 20), Rect(45+25*dx[1], 160+25*dx[0], 25, 25))
+                pygame.draw.rect(self.surf, block_color, Rect(45+25*dx[1], 160+25*dx[0], 21, 21))
 
     def show_score(self):
         score_height = 0
@@ -100,6 +107,13 @@ class PygameView(ViewBase):
             level_pos = (self.BOARD_BORDER_SIZE,
                          self.BOARD_BORDER_SIZE + score_height + self.SCORE_PADDING)
             self.surf.blit(level_surf, level_pos)
+            
+    def draw_hold(self):
+        hold_font = pygame.font.SysFont('ni7seg', 40)
+        hold_surf = hold_font.render("HOLD", True, (225, 225, 225))
+        hold_pos = (30, 120)
+        self.surf.blit(hold_surf, hold_pos)
+        #pygame.draw.rect(self.surf, (225, 225, 225), Rect(20, 150, 120, 120), 2)            
 
     def show_game_over(self):
         r = self.end_msg.get_rect()
@@ -214,11 +228,12 @@ class Tetris:
             self.board.rotate_piece()
         elif key == K_SPACE:
             self.board.full_drop_piece()
-        if key == pygame.K_p:
+        elif key == pygame.K_p:
           self.pause()
-
+        elif key == K_h:
+            self.board.hold_piece()
+            
     def pause(self):
-    
         isPaused = True;
         while(isPaused):
             for event in pygame.event.get():
@@ -253,6 +268,7 @@ class Tetris:
         for i in range(n):
             self.view.render_tile(i + 1, 0, Color.colors()[i])
         self.view.show()
+        self.view.show_hold(self.board.get_hold_piece(), self.board.get_hold_color())       
 
         while True:
             for event in pygame.event.get():
