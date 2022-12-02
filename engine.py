@@ -6,6 +6,7 @@ import numpy as np
 # Some interfaces
 
 
+
 class Color:
     CLEAR = "clear"
     RED = "red"
@@ -238,6 +239,8 @@ class Piece:
 
 
 class Board:
+
+
     def __init__(self, n_columns, n_rows, board=None, autogen=True):
         self.height = n_rows
         self.columns = [self.height] * n_columns
@@ -248,6 +251,8 @@ class Board:
 
     def reset(self):
         self.piece = None
+        self.hold_block = None
+        self.hold_used = False
         self.finalize_ready = False
         self.tiles = defaultdict(lambda: Color.CLEAR)
         self.score = 0
@@ -337,15 +342,65 @@ class Board:
             if not 0 <= x < len(self.columns) or y >= self.columns[x]:
                 return False
         return True
+    
+    def make_piece(self):
+        middle = len(self.columns) // 2
+        shape = self.rand.choice(Piece.SHAPES)
+        made_piece = Piece(middle - shape["x_adj"], 0, shape, shape["color"])
+        return made_piece
+
+    def hold_piece(self):
+        if self.piece is None:
+            return
+        if self.hold_used is False:
+            self.hold_used = True
+            self.piece.x = 0
+            self.piece.y = 0
+            self.hold_block = self.piece
+            self.generate_piece()
+        else:
+            self.piece.x = 0
+            self.piece.y = 0
+            self.hold_block, self.piece = self.piece, self.hold_block
+            self.hold_generate_piece()
+
+    def get_hold_piece(self):
+        if self.hold_block is not None:
+            return self.hold_block
+        else:
+            return 
+
+    def get_hold_color(self):
+        if self.hold_block != None:
+            return self.hold_block.color
+        else:
+            return
+            
+    def hold_generate_piece(self):
+        if self.game_over:
+            return
+
+        middle = len(self.columns) // 2
+        self.piece.x = middle - self.piece.shape["x_adj"]
+        self.piece
+
+        if not self.piece_can_move(0, 0):
+            # Show piece on the board
+            self.finalize_piece()
+
+            # And mark the game as over
+            self.game_over = True
+            self.piece = None
 
     def generate_piece(self):
         """Creates a new piece at random and places it at the top of the board."""
         if self.game_over:
             return
 
-        middle = len(self.columns) // 2
-        shape = self.rand.choice(Piece.SHAPES)
-        self.piece = Piece(middle - shape["x_adj"], 0, shape, shape["color"])
+        # middle = len(self.columns) // 2
+        # shape = self.rand.choice(Piece.SHAPES)
+        # self.piece = Piece(middle - shape["x_adj"], 0, shape, shape["color"])
+        self.piece = self.make_piece()
 
         if not self.piece_can_move(0, 0):
             # Show piece on the board
@@ -380,6 +435,8 @@ class Board:
             self.piece.render(v)
         v.set_score(self.score)
         v.set_level(self.level)
+        
+
 
     def leaderboard(self, username):
         leaderboard = []
