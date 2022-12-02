@@ -4,15 +4,22 @@ import sys
 from tetris import Tetris, PygameView
 from button import Button
 from engine import Piece
+from pygame import mixer
 
-
+mixer.init()
 pygame.init()
 
 SCREEN = pygame.display.set_mode((600, 600))
 pygame.display.set_caption("Menu")
 
 BG = pygame.image.load("assets/Background.png")
-
+# play background music
+background_music_sounds = pygame.mixer.music.load("music.mp3")
+print("music start playing")
+#set preferred volume
+pygame.mixer.music.set_volume(0.3)
+pygame.mixer.music.play(-1) # Play multiple times
+pygame.display.update()
 
 def get_font(size):  # Returns Press-Start-2P in the desired size
     return pygame.font.Font("assets/font.ttf", size)
