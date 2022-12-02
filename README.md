@@ -14,3 +14,4 @@ Down arrow: Drop piece one space
 A/S keys: Rotate piece left/right
 
 Space bar: Full drop
+p for paused and p for continue
