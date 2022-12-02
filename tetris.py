@@ -305,7 +305,8 @@ class Tetris:
         if self.show_action is not None:
             self.show_action()
         self.view.show()
-
+        self.view.show_hold(self.board.get_hold_piece(), self.board.get_hold_color())
+        
         if self.game_over:
             self.view.show_game_over()
 
