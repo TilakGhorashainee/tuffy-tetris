@@ -214,6 +214,21 @@ class Tetris:
             self.board.rotate_piece()
         elif key == K_SPACE:
             self.board.full_drop_piece()
+        if key == pygame.K_p:
+          self.pause()
+
+    def pause(self):
+    
+        isPaused = True;
+        while(isPaused):
+            for event in pygame.event.get():
+                if event.type == QUIT:
+                    pygame.quit()
+                    sys.exit()
+                elif event.type == KEYDOWN:
+                    if (event.key == K_p):
+                     isPaused = False                             
+        pygame.display.update()    
 
     def init(self):
         pygame.init()
