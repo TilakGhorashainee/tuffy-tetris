@@ -448,7 +448,7 @@ class Board:
 
     def leaderboard(self, username):
         leaderboard = []
-        with open("leaderboard.txt", 'a+') as f:
+        with open("leaderboard.txt", 'r') as f:
             lines = f.readlines()
             for line in lines:
                 currentLine = line.split(",")
