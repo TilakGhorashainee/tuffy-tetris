@@ -253,6 +253,9 @@ class Board:
         self.piece = None
         self.hold_block = None
         self.hold_used = False
+        self.first_hold = False
+        self.drop_x = 0
+        self.drop_y = 0
         self.finalize_ready = False
         self.tiles = defaultdict(lambda: Color.CLEAR)
         self.score = 0
@@ -354,11 +357,15 @@ class Board:
             return
         if self.hold_used is False:
             self.hold_used = True
+            self.drop_x = self.piece.x
+            self.drop_y = self.piece.y
             self.piece.x = 0
             self.piece.y = 0
             self.hold_block = self.piece
-            self.generate_piece()
+            self.hold_generate_piece()
         else:
+            self.drop_x = self.piece.x
+            self.drop_y = self.piece.y
             self.piece.x = 0
             self.piece.y = 0
             self.hold_block, self.piece = self.piece, self.hold_block
@@ -380,8 +387,12 @@ class Board:
         if self.game_over:
             return
 
-        middle = len(self.columns) // 2
-        self.piece.x = middle - self.piece.shape["x_adj"]
+        if self.first_hold is False:
+            self.piece = self.make_piece()
+            self.first_hold = True
+
+        self.piece.x = self.drop_x
+        self.piece.y = self.drop_y
         self.piece
 
         if not self.piece_can_move(0, 0):
@@ -397,9 +408,6 @@ class Board:
         if self.game_over:
             return
 
-        # middle = len(self.columns) // 2
-        # shape = self.rand.choice(Piece.SHAPES)
-        # self.piece = Piece(middle - shape["x_adj"], 0, shape, shape["color"])
         self.piece = self.make_piece()
 
         if not self.piece_can_move(0, 0):
@@ -440,7 +448,7 @@ class Board:
 
     def leaderboard(self, username):
         leaderboard = []
-        with open("leaderboard.txt", 'r') as f:
+        with open("leaderboard.txt", 'a+') as f:
             lines = f.readlines()
             for line in lines:
                 currentLine = line.split(",")
