@@ -88,9 +88,10 @@ class PygameView(ViewBase):
     
     def show_hold(self, hold_block, block_color):
         if hold_block != None:
+            hold_color = self.COLOR_MAP[block_color]
             for dx in hold_block:
                 pygame.draw.rect(self.surf, (20, 20, 20), Rect(45+25*dx[1], 160+25*dx[0], 25, 25))
-                pygame.draw.rect(self.surf, block_color, Rect(45+25*dx[1], 160+25*dx[0], 21, 21))
+                pygame.draw.rect(self.surf, hold_color, Rect(45+25*dx[1], 160+25*dx[0], 21, 21))
 
     def show_score(self):
         score_height = 0
