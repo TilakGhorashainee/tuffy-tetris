@@ -2,6 +2,13 @@
 A simple tetris game
 ====================
 
+How to Execute:
+---------------
+
+on Windows OS: run tetris.exe (need exe and assets folder in the same directory)
+other OS: install python, pygame, numpy and run main.py on IDE
+
+
 Controls:
 ---------
 
